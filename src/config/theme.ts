@@ -212,7 +212,7 @@ export const theme = {
   // ============================================
   textures: {
     // Choose which texture pack to use: "fine-grain", "coarse-grain", "paper", "canvas", "fabric", "organic", "mesh"
-    active: "fine-grain", // Change this to switch texture packs
+    active: "coarse-grain", // Change this to switch texture packs
     
     // Fine Grain - subtle, modern
     "fine-grain": {

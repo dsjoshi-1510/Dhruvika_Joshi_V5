@@ -1,30 +1,56 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { theme } from "@/config/theme";
 
 const navLinks = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Portfolio", path: "/portfolio" },
-  { name: "Resume", path: "/resume" },
+  { name: "Home", id: "home" },
+  { name: "About", id: "about" },
+  { name: "Portfolio", id: "portfolio" },
+  { name: "Resume", id: "resume" },
 ];
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+      
+      // Scroll spy - detect which section is in view
+      const sections = navLinks.map(link => document.getElementById(link.id)).filter(Boolean) as HTMLElement[];
+      const scrollPosition = window.scrollY + 100;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(section.id);
+          break;
+        }
+      }
+    };
+
     window.addEventListener("scroll", onScroll);
+    onScroll(); // Initial check
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80; // Account for fixed navbar
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
     setIsOpen(false);
-  }, [location.pathname]);
+  };
 
   return (
     <nav
@@ -39,46 +65,46 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-14 sm:h-16 md:h-20">
           {/* Logo */}
-          <Link
-            to="/"
-            className="text-lg sm:text-xl md:text-2xl font-bold transition-colors active:opacity-70 touch-manipulation"
+          <button
+            onClick={() => scrollToSection("home")}
+            className="text-lg sm:text-xl md:text-2xl font-bold transition-colors active:opacity-70 touch-manipulation text-left"
             style={{ color: theme.colors.text.primary }}
           >
             Dhruvika <span style={{ color: theme.colors.text.muted }}>Joshi</span>
-          </Link>
+          </button>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
                 className="transition-colors duration-300 relative text-sm lg:text-base"
                 style={{
-                  color: location.pathname === link.path 
-                    ? theme.colors.text.primary 
+                  color: activeSection === link.id
+                    ? theme.colors.text.primary
                     : theme.colors.text.muted,
-                  fontWeight: location.pathname === link.path ? 600 : 400,
+                  fontWeight: activeSection === link.id ? 600 : 400,
                 }}
                 onMouseEnter={(e) => {
-                  if (location.pathname !== link.path) {
+                  if (activeSection !== link.id) {
                     e.currentTarget.style.color = theme.colors.text.primary;
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (location.pathname !== link.path) {
+                  if (activeSection !== link.id) {
                     e.currentTarget.style.color = theme.colors.text.muted;
                   }
                 }}
               >
                 {link.name}
-                {location.pathname === link.path && (
-                  <span 
+                {activeSection === link.id && (
+                  <span
                     className="absolute bottom-0 left-0 right-0 h-0.5"
                     style={{ backgroundColor: theme.colors.palette.whiskeySour }}
                   />
                 )}
-              </Link>
+              </button>
             ))}
 
             <Button 
@@ -123,22 +149,22 @@ export default function Navigation() {
           >
             <div className="flex flex-col gap-2">
               {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className="py-3 px-2 transition-colors active:opacity-70 touch-manipulation text-base min-h-[44px] flex items-center"
+                <button
+                  key={link.id}
+                  onClick={() => scrollToSection(link.id)}
+                  className="py-3 px-2 transition-colors active:opacity-70 touch-manipulation text-base min-h-[44px] flex items-center text-left"
                   style={{
-                    color: location.pathname === link.path
+                    color: activeSection === link.id
                       ? theme.colors.text.primary
                       : theme.colors.text.muted,
-                    fontWeight: location.pathname === link.path ? 600 : 400,
-                    backgroundColor: location.pathname === link.path
+                    fontWeight: activeSection === link.id ? 600 : 400,
+                    backgroundColor: activeSection === link.id
                       ? `${theme.colors.palette.champagne}20`
                       : 'transparent',
                   }}
                 >
                   {link.name}
-                </Link>
+                </button>
               ))}
 
               <Button 
