@@ -2,90 +2,107 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Mobile-first improvements */
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-  /* Pastel / warm neutral theme */
-  --background: 41 29% 89%;          /* cream (#E1D4C2) */
-  --foreground: 20 48% 10%;          /* espresso (#291C0E) */
+  /* Strict palette theme - matches theme.ts config */
+  --background: 41 29% 92%;          /* #EACEAA - Champagne */
+  --foreground: 15 60% 12%;          /* #34150F - Burnt Coffee */
 
-  --card: 41 29% 89%;
-  --card-foreground: 20 48% 10%;
+  --card: 0 0% 100%;                  /* #FFFFFF - Pure white */
+  --card-foreground: 15 60% 12%;     /* #34150F */
 
-  --popover: 41 29% 89%;
-  --popover-foreground: 20 48% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 15 60% 12%;
 
-  --primary: 20 48% 10%;             /* espresso */
-  --primary-foreground: 41 29% 89%;  /* cream */
+  --primary: 25 60% 32%;             /* #85431E - Honey Garlic */
+  --primary-foreground: 0 0% 100%;  /* White */
 
-  --secondary: 22 23% 35%;           /* cocoa-ish */
-  --secondary-foreground: 41 29% 89%;
+  --secondary: 30 45% 58%;           /* #D39858 - Whiskey Sour */
+  --secondary-foreground: 15 60% 12%;
 
-  --muted: 28 17% 70%;               /* stone */
-  --muted-foreground: 22 10% 35%;
+  --muted: 41 29% 92%;               /* #EACEAA - Champagne */
+  --muted-foreground: 25 60% 32%;
 
-  --accent: 28 17% 70%;              /* stone */
-  --accent-foreground: 20 48% 10%;
+  --accent: 30 45% 58%;              /* #D39858 - Whiskey Sour */
+  --accent-foreground: 0 0% 100%;
 
   --destructive: 0 72% 50%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 28 17% 70%;
-  --input: 28 17% 70%;
-  --ring: 22 23% 35%;
+  --border: 15 60% 12%;              /* #34150F - Burnt Coffee */
+  --input: 15 60% 12%;
+  --ring: 30 45% 58%;                /* #D39858 - Whiskey Sour */
 
   --radius: 1rem;
-}
 
+  /* Custom tokens for portfolio */
+  --hero-gradient-from: 234 206 170;  /* #EACEAA - Champagne */
+  --hero-gradient-to: 133 67 30;      /* #85431E - Honey Garlic */
+  
+  --section-bg: 234 206 170;         /* #EACEAA - Champagne */
+  --section-bg-alt: 255 255 255;      /* #FFFFFF */
+  
+  --text-primary: 52 21 15;          /* #34150F - Burnt Coffee */
+  --text-secondary: 133 67 30;       /* #85431E - Honey Garlic */
+  --text-muted: 211 152 88;          /* #D39858 - Whiskey Sour */
 
-    /* Custom tokens for portfolio */
-    --hero-gradient-from: 243 75% 59%;
-    --hero-gradient-to: 271 81% 56%;
-    
-    --section-bg: 220 13% 98%;
-    --section-bg-alt: 0 0% 100%;
-    
-    --text-primary: 220 13% 13%;
-    --text-secondary: 220 9% 46%;
-    --text-muted: 220 9% 60%;
-
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-  --background: 20 48% 7%;          /* deep espresso */
-  --foreground: 41 29% 92%;         /* light cream */
+    --background: 20 48% 7%;          /* deep espresso */
+    --foreground: 41 29% 92%;         /* light cream */
 
-  --card: 20 48% 9%;
-  --card-foreground: 41 29% 92%;
+    --card: 20 48% 9%;
+    --card-foreground: 41 29% 92%;
 
-  --popover: 20 48% 9%;
-  --popover-foreground: 41 29% 92%;
+    --popover: 20 48% 9%;
+    --popover-foreground: 41 29% 92%;
 
-  --primary: 41 29% 92%;            /* cream */
-  --primary-foreground: 20 48% 10%; /* espresso */
+    --primary: 41 29% 92%;            /* cream */
+    --primary-foreground: 20 48% 10%; /* espresso */
 
-  --secondary: 22 23% 20%;
-  --secondary-foreground: 41 29% 92%;
+    --secondary: 22 23% 20%;
+    --secondary-foreground: 41 29% 92%;
 
-  --muted: 22 23% 16%;
-  --muted-foreground: 28 17% 70%;
+    --muted: 22 23% 16%;
+    --muted-foreground: 28 17% 70%;
 
-  --accent: 22 23% 16%;
-  --accent-foreground: 41 29% 92%;
+    --accent: 22 23% 16%;
+    --accent-foreground: 41 29% 92%;
 
-  --destructive: 0 62% 35%;
-  --destructive-foreground: 0 0% 98%;
+    --destructive: 0 62% 35%;
+    --destructive-foreground: 0 0% 98%;
 
-  --border: 22 23% 18%;
-  --input: 22 23% 18%;
-  --ring: 28 17% 70%;
+    --border: 22 23% 18%;
+    --input: 22 23% 18%;
+    --ring: 28 17% 70%;
 
-  --radius: 1rem;
+    --radius: 1rem;
+  }
 }
 
 @layer base {
@@ -115,6 +132,12 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
+  /* Touch optimization for mobile */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
   .section-container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
@@ -133,5 +156,239 @@ All colors MUST be HSL.
 
   .smooth-transition {
     transition: var(--transition-smooth);
+  }
+
+  /* Texture System - Multiple texture packs available */
+  .grainy-texture {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Fine Grain Texture (default) */
+  .grainy-texture::before {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(234, 206, 170, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(211, 152, 88, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(133, 67, 30, 0.08) 0%, transparent 70%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
+    background-size: 200px 200px, 300px 300px, 250px 250px, 200px 200px;
+    opacity: 0.35;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    z-index: 1;
+    animation: grainMove 20s linear infinite;
+  }
+
+  .grainy-texture::after {
+    content: '';
+    position: absolute;
+    inset: -50%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E");
+    background-size: 100px 100px;
+    opacity: 0.25;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 1;
+    animation: grainMove 15s linear infinite reverse;
+  }
+
+  /* Coarse Grain Texture */
+  .texture-coarse-grain::before {
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(234, 206, 170, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(211, 152, 88, 0.12) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.5'/%3E%3C/svg%3E");
+    background-size: 150px 150px, 200px 200px, 150px 150px;
+    opacity: 0.45;
+    animation: grainMove 25s linear infinite;
+  }
+
+  .texture-coarse-grain::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 150 150' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
+    background-size: 80px 80px;
+    opacity: 0.3;
+    animation: grainMove 20s linear infinite reverse;
+  }
+
+  /* Paper Texture */
+  .texture-paper::before {
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(234, 206, 170, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(211, 152, 88, 0.08) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.35'/%3E%3C/svg%3E");
+    background-size: 300px 300px, 400px 400px, 300px 300px;
+    opacity: 0.3;
+    animation: grainMove 30s linear infinite;
+  }
+
+  .texture-paper::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.25'/%3E%3C/svg%3E");
+    background-size: 150px 150px;
+    opacity: 0.2;
+    animation: grainMove 25s linear infinite reverse;
+  }
+
+  /* Canvas Texture */
+  .texture-canvas::before {
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(234, 206, 170, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(211, 152, 88, 0.1) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.45'/%3E%3C/svg%3E");
+    background-size: 250px 250px, 350px 350px, 250px 250px;
+    opacity: 0.4;
+    animation: grainMove 22s linear infinite;
+  }
+
+  .texture-canvas::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.8' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E");
+    background-size: 120px 120px;
+    opacity: 0.25;
+    animation: grainMove 18s linear infinite reverse;
+  }
+
+  /* Fabric Texture */
+  .texture-fabric::before {
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(234, 206, 170, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(211, 152, 88, 0.08) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
+    background-size: 180px 180px, 240px 240px, 180px 180px;
+    opacity: 0.35;
+    animation: grainMove 18s linear infinite;
+  }
+
+  .texture-fabric::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E");
+    background-size: 90px 90px;
+    opacity: 0.2;
+    animation: grainMove 14s linear infinite reverse;
+  }
+
+  /* Organic Grain Texture */
+  .texture-organic::before {
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(234, 206, 170, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(211, 152, 88, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(133, 67, 30, 0.08) 0%, transparent 70%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.45'/%3E%3C/svg%3E");
+    background-size: 220px 220px, 280px 280px, 200px 200px, 220px 220px;
+    opacity: 0.4;
+    animation: grainMove 28s linear infinite;
+  }
+
+  .texture-organic::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E");
+    background-size: 110px 110px;
+    opacity: 0.25;
+    animation: grainMove 22s linear infinite reverse;
+  }
+
+  /* Mesh Texture */
+  .texture-mesh::before {
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(234, 206, 170, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(211, 152, 88, 0.06) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E");
+    background-size: 100px 100px, 150px 150px, 100px 100px;
+    opacity: 0.25;
+    animation: grainMove 15s linear infinite;
+  }
+
+  .texture-mesh::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+    background-size: 50px 50px;
+    opacity: 0.15;
+    animation: grainMove 12s linear infinite reverse;
+  }
+
+  @keyframes grainMove {
+    0% {
+      transform: translate(0, 0);
+    }
+    25% {
+      transform: translate(10px, -10px);
+    }
+    50% {
+      transform: translate(-10px, 10px);
+    }
+    75% {
+      transform: translate(10px, 10px);
+    }
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+
+  /* Subtle grainy texture (lighter, slower) - inherits from grainy-texture */
+  .grainy-subtle {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grainy-subtle::before {
+    content: '';
+    position: absolute;
+    inset: -30%;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(234, 206, 170, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(211, 152, 88, 0.06) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.3'/%3E%3C/svg%3E");
+    background-size: 200px 200px, 300px 300px, 200px 200px;
+    opacity: 0.25;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    z-index: 1;
+    animation: grainMove 30s linear infinite;
+  }
+
+  .grainy-subtle::after {
+    content: '';
+    position: absolute;
+    inset: -30%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.2'/%3E%3C/svg%3E");
+    background-size: 100px 100px;
+    opacity: 0.2;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    z-index: 1;
+    animation: grainMove 25s linear infinite reverse;
+  }
+
+  /* Strong grainy texture (more visible, faster) */
+  .grainy-strong::before {
+    opacity: 0.5;
+    animation-duration: 15s;
+  }
+
+  .grainy-strong::after {
+    opacity: 0.3;
+    animation-duration: 12s;
+  }
+
+  /* Sequential fade-in animation */
+  .fade-in-sequential {
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+  }
+
+  .fade-in-sequential:nth-child(1) { animation-delay: 0.1s; }
+  .fade-in-sequential:nth-child(2) { animation-delay: 0.2s; }
+  .fade-in-sequential:nth-child(3) { animation-delay: 0.3s; }
+  .fade-in-sequential:nth-child(4) { animation-delay: 0.4s; }
+  .fade-in-sequential:nth-child(5) { animation-delay: 0.5s; }
+  .fade-in-sequential:nth-child(6) { animation-delay: 0.6s; }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

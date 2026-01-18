@@ -1,6 +1,7 @@
 import { ArrowRight, Mail, Github, Linkedin, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef, useState } from "react";
+import { theme } from "@/config/theme";
 
 const Home = () => {
   const canvasRef = useRef(null);
@@ -29,21 +30,28 @@ const Home = () => {
       const blob3X = canvas.width * 0.5 + Math.sin(time * 0.0008) * 90;
       const blob3Y = canvas.height * 0.7 + Math.cos(time * 0.0013) * 110;
 
-      // Create gradients for each blob
+      // Create gradients for each blob using theme colors
+      const hexToRgba = (hex: string, alpha: number) => {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      };
+
       const gradient1 = ctx.createRadialGradient(blob1X, blob1Y, 0, blob1X, blob1Y, 300);
-      gradient1.addColorStop(0, 'rgba(212, 196, 176, 0.8)');
-      gradient1.addColorStop(0.5, 'rgba(181, 169, 154, 0.6)');
-      gradient1.addColorStop(1, 'rgba(139, 117, 102, 0)');
+      gradient1.addColorStop(0, hexToRgba(theme.colors.primary.lightest, 0.8));
+      gradient1.addColorStop(0.5, hexToRgba(theme.colors.primary.light, 0.6));
+      gradient1.addColorStop(1, hexToRgba(theme.colors.primary.medium, 0));
 
       const gradient2 = ctx.createRadialGradient(blob2X, blob2Y, 0, blob2X, blob2Y, 280);
-      gradient2.addColorStop(0, 'rgba(139, 117, 102, 0.7)');
-      gradient2.addColorStop(0.5, 'rgba(107, 93, 82, 0.5)');
-      gradient2.addColorStop(1, 'rgba(74, 63, 55, 0)');
+      gradient2.addColorStop(0, hexToRgba(theme.colors.primary.medium, 0.7));
+      gradient2.addColorStop(0.5, hexToRgba(theme.colors.primary.dark, 0.5));
+      gradient2.addColorStop(1, hexToRgba(theme.colors.primary.darkest, 0));
 
       const gradient3 = ctx.createRadialGradient(blob3X, blob3Y, 0, blob3X, blob3Y, 320);
-      gradient3.addColorStop(0, 'rgba(181, 169, 154, 0.7)');
-      gradient3.addColorStop(0.5, 'rgba(139, 117, 102, 0.5)');
-      gradient3.addColorStop(1, 'rgba(107, 93, 82, 0)');
+      gradient3.addColorStop(0, hexToRgba(theme.colors.primary.light, 0.7));
+      gradient3.addColorStop(0.5, hexToRgba(theme.colors.primary.medium, 0.5));
+      gradient3.addColorStop(1, hexToRgba(theme.colors.primary.dark, 0));
 
       // Draw blobs
       ctx.fillStyle = gradient1;
@@ -86,29 +94,43 @@ const Home = () => {
 
   return (
     <div className="min-h-screen" onMouseMove={handleMouseMove}>
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden grainy-texture texture-organic">
         {/* Animated Canvas Background with blur effect */}
         <canvas
           ref={canvasRef}
           className="absolute inset-0 z-0"
           style={{
-            background: 'linear-gradient(135deg, #D4C4B0 0%, #B5A99A 25%, #8B7566 50%, #6B5D52 75%, #4A3F37 100%)',
-            filter: 'blur(80px)'
+            background: theme.components.hero.backgroundGradient,
+            filter: `blur(${theme.components.hero.blur})`
           }}
         />
 
-        {/* Overlay for extra blur and color wash */}
-        <div className="absolute inset-0 z-[1]" style={{
-          background: 'linear-gradient(135deg, rgba(212, 196, 176, 0.3) 0%, rgba(181, 169, 154, 0.2) 25%, rgba(139, 117, 102, 0.3) 50%, rgba(107, 93, 82, 0.2) 75%, rgba(74, 63, 55, 0.3) 100%)',
-          backdropFilter: 'blur(60px)'
-        }} />
+        {/* Gradient overlay with animated texture */}
+        <div 
+          className="absolute inset-0 z-[1] grainy-texture" 
+          style={{
+            background: `radial-gradient(circle at 20% 30%, ${theme.colors.palette.champagne}60 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, ${theme.colors.palette.whiskeySour}40 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, ${theme.colors.palette.honeyGarlic}30 0%, transparent 70%),
+                        linear-gradient(135deg, ${theme.colors.palette.champagne}50 0%, ${theme.colors.palette.whiskeySour}35 50%, ${theme.colors.palette.honeyGarlic}25 100%)`,
+            backdropFilter: `blur(${theme.effects.backdropBlur["2xl"]})`
+          }}
+        />
 
-        {/* Content */}
-        <div className="relative z-10 text-center py-20 max-w-6xl mx-auto px-6">
-          {/* Headshot with refined styling - slightly smaller */}
-          <div className="relative mx-auto mb-10 w-40 h-40 md:w-48 md:h-48 group">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#D4C4B0] via-[#B5A99A] to-[#8B7566] rounded-full animate-spin-slow opacity-40 blur-xl group-hover:opacity-60 transition-opacity duration-500" />
-            <div className="relative w-full h-full rounded-full overflow-hidden ring-4 ring-white/90 shadow-2xl shadow-neutral-900/10 transition-all duration-500 group-hover:scale-105 group-hover:shadow-3xl">
+        {/* Content - Sequential flow */}
+        <div className="relative z-10 text-center py-12 sm:py-16 md:py-20 max-w-6xl mx-auto px-4 sm:px-6">
+          {/* Headshot with refined styling - sequential animation */}
+          <div className="relative mx-auto mb-8 sm:mb-10 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 group fade-in-sequential">
+            <div 
+              className="absolute inset-0 rounded-full animate-spin-slow opacity-50 blur-xl group-hover:opacity-70 transition-opacity duration-500"
+              style={{
+                background: `linear-gradient(135deg, ${theme.colors.palette.champagne}, ${theme.colors.palette.whiskeySour}, ${theme.colors.palette.honeyGarlic})`
+              }}
+            />
+            <div 
+              className="relative w-full h-full rounded-full overflow-hidden ring-4 ring-white/90 transition-all duration-500 group-hover:scale-105"
+              style={{ boxShadow: theme.shadows["2xl"] }}
+            >
               <img
                 src="/headshot.JPG"
                 alt="Dhruvika Joshi"
@@ -117,119 +139,184 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Skill strip */}
-          <div className="inline-block px-6 py-2 bg-white/80 backdrop-blur-sm rounded-full mb-8 shadow-lg">
-            <p className="text-xs uppercase tracking-[0.25em] text-[#4A3F37] font-semibold">
+          {/* Skill strip - sequential */}
+          <div 
+            className="inline-block px-4 sm:px-6 py-2 backdrop-blur-sm rounded-full mb-6 sm:mb-8 fade-in-sequential"
+            style={{
+              backgroundColor: theme.colors.background.overlay,
+              boxShadow: theme.shadows.lg,
+              border: `1px solid ${theme.colors.palette.burntCoffee}20`,
+            }}
+          >
+            <p 
+              className="text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] font-semibold leading-tight"
+              style={{ color: theme.colors.text.primary }}
+            >
               Brand Strategy • Consumer Insight • Storytelling
             </p>
           </div>
 
-          {/* Heading */}
-          <h1 className="mb-6 text-6xl md:text-7xl font-black text-white tracking-tight drop-shadow-lg">
+          {/* Heading - sequential */}
+          <h1 className="mb-4 sm:mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight drop-shadow-lg fade-in-sequential px-2">
             Dhruvika Joshi
           </h1>
 
-          {/* Tagline */}
-          <p className="text-2xl md:text-4xl text-white mb-14 max-w-4xl mx-auto leading-relaxed font-semibold tracking-tight drop-shadow-md">
+          {/* Tagline - sequential */}
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-4xl text-white mb-10 sm:mb-12 md:mb-14 max-w-4xl mx-auto leading-relaxed font-semibold tracking-tight drop-shadow-md fade-in-sequential px-2">
             Turning insight into brand stories
-            <span className="text-[#F5F0EB]"> people remember</span>.
+            <span style={{ color: theme.colors.palette.champagne }}> people remember</span>.
           </p>
 
-          {/* Refined CTA */}
-          <div className="flex justify-center mb-16">
+          {/* Refined CTA - sequential */}
+          <div className="flex justify-center mb-12 sm:mb-14 md:mb-16 fade-in-sequential px-4">
             <Button
               size="lg"
               onClick={() => window.location.href = '/portfolio'}
-              className="bg-white/90 hover:bg-white text-[#4A3F37] font-semibold shadow-xl shadow-black/20 transition-all duration-300 hover:shadow-2xl hover:scale-105 border-0 px-10 py-7 text-lg rounded-2xl backdrop-blur-sm cursor-pointer"
+              className="font-semibold transition-all duration-300 hover:scale-105 active:scale-95 border-0 px-6 sm:px-8 md:px-10 py-5 sm:py-6 md:py-7 text-base sm:text-lg rounded-xl sm:rounded-2xl backdrop-blur-sm cursor-pointer w-full sm:w-auto min-h-[48px] touch-manipulation"
+              style={{
+                backgroundColor: theme.components.button.primary.background,
+                color: theme.components.button.primary.text,
+                boxShadow: theme.shadows.xl,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = theme.components.button.primary.hoverBackground;
+                e.currentTarget.style.boxShadow = theme.shadows["2xl"];
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = theme.components.button.primary.background;
+                e.currentTarget.style.boxShadow = theme.shadows.xl;
+              }}
             >
-              <span className="flex items-center">
+              <span className="flex items-center justify-center">
                 Explore My Work
-                <ArrowRight className="ml-3 h-5 w-5" />
+                <ArrowRight className="ml-2 sm:ml-3 h-4 w-4 sm:h-5 sm:w-5" />
               </span>
             </Button>
           </div>
 
-          {/* Contact Information - Better visual hierarchy */}
-          <div className="mb-20">
-            <div className="flex flex-wrap justify-center items-center gap-4 px-4">
+          {/* Contact Information - Sequential, better visual hierarchy */}
+          <div className="mb-12 sm:mb-16 md:mb-20 fade-in-sequential px-2">
+            <div className="flex flex-col sm:flex-row flex-wrap justify-center items-stretch sm:items-center gap-3 sm:gap-4">
               <a
                 href="mailto:dsjoshi@usc.edu"
-                className="flex items-center gap-2 px-5 py-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                className="flex items-center justify-center gap-2 px-4 sm:px-5 py-3 sm:py-3 backdrop-blur-sm rounded-full transition-all duration-300 active:scale-95 touch-manipulation min-h-[44px] w-full sm:w-auto"
+                style={{
+                  backgroundColor: theme.colors.background.overlay,
+                  boxShadow: theme.shadows.lg,
+                  border: `1px solid ${theme.colors.palette.burntCoffee}20`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = theme.colors.palette.whiskeySour;
+                  e.currentTarget.style.boxShadow = theme.shadows.xl;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = theme.colors.background.overlay;
+                  e.currentTarget.style.boxShadow = theme.shadows.lg;
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Mail className="w-4 h-4 text-[#6B5D52]" />
-                <span className="text-sm text-[#4A3F37] font-medium">dsjoshi@usc.edu</span>
+                <Mail className="w-4 h-4 sm:w-4 sm:h-4 flex-shrink-0" style={{ color: theme.colors.text.secondary }} />
+                <span className="text-xs sm:text-sm font-medium text-center" style={{ color: theme.colors.text.primary }}>dsjoshi@usc.edu</span>
               </a>
 
               <a
                 href="https://www.linkedin.com/in/dhruvika-joshi/"
-                className="flex items-center gap-2 px-5 py-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                className="flex items-center justify-center gap-2 px-4 sm:px-5 py-3 backdrop-blur-sm rounded-full transition-all duration-300 active:scale-95 touch-manipulation min-h-[44px] w-full sm:w-auto"
+                style={{
+                  backgroundColor: theme.colors.background.overlay,
+                  boxShadow: theme.shadows.lg,
+                  border: `1px solid ${theme.colors.palette.burntCoffee}20`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = theme.colors.palette.whiskeySour;
+                  e.currentTarget.style.boxShadow = theme.shadows.xl;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = theme.colors.background.overlay;
+                  e.currentTarget.style.boxShadow = theme.shadows.lg;
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Linkedin className="w-4 h-4 text-[#6B5D52]" />
-                <span className="text-sm text-[#4A3F37] font-medium">LinkedIn</span>
+                <Linkedin className="w-4 h-4 flex-shrink-0" style={{ color: theme.colors.text.secondary }} />
+                <span className="text-xs sm:text-sm font-medium" style={{ color: theme.colors.text.primary }}>LinkedIn</span>
               </a>
 
               <a
                 href="https://github.com/dsjoshi-1510"
-                className="flex items-center gap-2 px-5 py-3 bg-white/90 backdrop-blur-sm rounded-full hover:bg-white transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+                className="flex items-center justify-center gap-2 px-4 sm:px-5 py-3 backdrop-blur-sm rounded-full transition-all duration-300 active:scale-95 touch-manipulation min-h-[44px] w-full sm:w-auto"
+                style={{
+                  backgroundColor: theme.colors.background.overlay,
+                  boxShadow: theme.shadows.lg,
+                  border: `1px solid ${theme.colors.palette.burntCoffee}20`,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = theme.colors.palette.whiskeySour;
+                  e.currentTarget.style.boxShadow = theme.shadows.xl;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = theme.colors.background.overlay;
+                  e.currentTarget.style.boxShadow = theme.shadows.lg;
+                }}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Github className="w-4 h-4 text-[#6B5D52]" />
-                <span className="text-sm text-[#4A3F37] font-medium">GitHub</span>
+                <Github className="w-4 h-4 flex-shrink-0" style={{ color: theme.colors.text.secondary }} />
+                <span className="text-xs sm:text-sm font-medium" style={{ color: theme.colors.text.primary }}>GitHub</span>
               </a>
 
-              <div className="flex items-center gap-2 px-5 py-3 bg-white/90 backdrop-blur-sm rounded-full shadow-lg">
-                <MapPin className="w-4 h-4 text-[#6B5D52]" />
-                <span className="text-sm text-[#4A3F37] font-medium">Los Angeles, CA</span>
+              <div 
+                className="flex items-center justify-center gap-2 px-4 sm:px-5 py-3 backdrop-blur-sm rounded-full min-h-[44px] w-full sm:w-auto"
+                style={{
+                  backgroundColor: theme.colors.background.overlay,
+                  boxShadow: theme.shadows.lg,
+                  border: `1px solid ${theme.colors.palette.burntCoffee}20`,
+                }}
+              >
+                <MapPin className="w-4 h-4 flex-shrink-0" style={{ color: theme.colors.text.secondary }} />
+                <span className="text-xs sm:text-sm font-medium" style={{ color: theme.colors.text.primary }}>Los Angeles, CA</span>
               </div>
             </div>
           </div>
 
-          {/* Logos with enhanced styling */}
-          <div className="text-center">
-            <p className="text-xs uppercase tracking-[0.35em] text-white/80 mb-12 font-semibold drop-shadow-sm">
+          {/* Logos with enhanced styling - sequential */}
+          <div className="text-center fade-in-sequential px-2">
+            <p className="text-[10px] sm:text-xs uppercase tracking-[0.25em] sm:tracking-[0.35em] text-white/80 mb-8 sm:mb-10 md:mb-12 font-semibold drop-shadow-sm">
               Selected Projects Through
             </p>
-            <div className="flex flex-wrap justify-center items-center gap-8 px-4">
-              <div className="transform hover:scale-110 transition-all duration-300 bg-white p-5 rounded-2xl shadow-xl hover:shadow-2xl">
-                <img
-                  src="/marshall.png"
-                  alt="USC Marshall"
-                  className="h-10 w-auto"
-                />
-              </div>
-              <div className="transform hover:scale-110 transition-all duration-300 bg-white p-5 rounded-2xl shadow-xl hover:shadow-2xl">
-                <img
-                  src="/tawkify.png"
-                  alt="Tawkify"
-                  className="h-8 w-auto"
-                />
-              </div>
-              <div className="transform hover:scale-110 transition-all duration-300 bg-white p-5 rounded-2xl shadow-xl hover:shadow-2xl">
-                <img
-                  src="/ilem.png"
-                  alt="ILEM"
-                  className="h-8 w-auto"
-                />
-              </div>
-              <div className="transform hover:scale-110 transition-all duration-300 bg-white p-5 rounded-2xl shadow-xl hover:shadow-2xl">
-                <img
-                  src="/leaf.png"
-                  alt="Leaf"
-                  className="h-8 w-auto"
-                />
-              </div>
-              <div className="transform hover:scale-110 transition-all duration-300 bg-white p-5 rounded-2xl shadow-xl hover:shadow-2xl">
-                <img
-                  src="/aiesec_logo_black.svg"
-                  alt="AIESEC"
-                  className="h-8 w-auto"
-                />
-              </div>
+            <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8">
+              {[
+                { src: "/marshall.png", alt: "USC Marshall", h: "h-8 sm:h-10" },
+                { src: "/tawkify.png", alt: "Tawkify", h: "h-6 sm:h-8" },
+                { src: "/ilem.png", alt: "ILEM", h: "h-6 sm:h-8" },
+                { src: "/leaf.png", alt: "Leaf", h: "h-6 sm:h-8" },
+                { src: "/aiesec_logo_black.svg", alt: "AIESEC", h: "h-6 sm:h-8" },
+              ].map((logo, idx) => (
+                <div
+                  key={idx}
+                  className="transform active:scale-95 transition-all duration-300 p-3 sm:p-4 md:p-5 rounded-xl sm:rounded-2xl touch-manipulation"
+                  style={{
+                    backgroundColor: theme.colors.background.card,
+                    boxShadow: theme.shadows.xl,
+                    border: `1px solid ${theme.colors.palette.burntCoffee}15`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = theme.colors.palette.whiskeySour;
+                    e.currentTarget.style.boxShadow = theme.shadows["2xl"];
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = theme.colors.background.card;
+                    e.currentTarget.style.boxShadow = theme.shadows.xl;
+                  }}
+                >
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    className={`${logo.h} w-auto`}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -279,7 +366,32 @@ const Home = () => {
           }
 
           .animate-fade-in {
-            animation: fade-in 1s ease-out;
+            animation: fade-in 0.4s ease-out;
+          }
+          
+          /* Grainy texture overlay */
+          .grainy-texture::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+              radial-gradient(circle at 20% 50%, transparent 20%, rgba(255,255,255,0.05) 21%, rgba(255,255,255,0.05) 34%, transparent 35%, transparent),
+              radial-gradient(circle at 60% 80%, transparent 20%, rgba(255,255,255,0.05) 21%, rgba(255,255,255,0.05) 34%, transparent 35%, transparent),
+              radial-gradient(circle at 40% 20%, transparent 20%, rgba(255,255,255,0.05) 21%, rgba(255,255,255,0.05) 34%, transparent 35%, transparent);
+            background-size: 200px 200px, 300px 300px, 250px 250px;
+            opacity: 0.6;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+          }
+          
+          .grainy-texture::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
+            opacity: 0.15;
+            pointer-events: none;
+            mix-blend-mode: multiply;
           }
         `}</style>
       </section>

@@ -3,8 +3,9 @@ import { ExternalLink, Github } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { theme } from "@/config/theme";
 
-type ProjectCategory = "all" | "strategy" | "analytics" | "experience";
+type ProjectCategory = "all" | "strategy" | "analytics" | "experience" | "personal";
 
 interface Project {
   title: string;
@@ -99,6 +100,14 @@ const projects: Project[] = [
     tags: ["Consumer Insight", "Cultural Research"],
     image: "/Egypt.jpg",
   },
+  {
+    title: "Personal Project Placeholder",
+    description:
+      "This is a placeholder for personal projects. Add your creative work, side projects, or personal initiatives here.",
+    category: "personal",
+    tags: ["Personal", "Creative", "Work in Progress"],
+    image: "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=800&h=600&fit=crop",
+  },
 ];
 
 const categories = [
@@ -106,6 +115,7 @@ const categories = [
   { id: "strategy", label: "Brand Strategy" },
   { id: "analytics", label: "Analytics & Insights" },
   { id: "experience", label: "Professional Experience" },
+  { id: "personal", label: "Personal" },
 ];
 
 export default function Portfolio() {
@@ -118,72 +128,154 @@ export default function Portfolio() {
       : projects.filter((p) => p.category === activeCategory);
 
   return (
-    <div className="min-h-screen pt-24 pb-20 bg-[#F5F0EB]">
-      <div className="max-w-7xl mx-auto px-6">
-        <h1 className="text-5xl font-bold text-[#4A3F37] mb-12 text-center">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-12 sm:pb-16 md:pb-20 grainy-subtle texture-canvas" style={{ backgroundColor: theme.colors.background.main }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-8 sm:mb-10 md:mb-12 text-center fade-in-sequential" style={{ color: theme.colors.text.primary }}>
           Portfolio
         </h1>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-3 justify-center mb-12">
+        <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mb-8 sm:mb-10 md:mb-12 px-2">
           {categories.map((cat) => (
             <Button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id as ProjectCategory)}
-              variant={activeCategory === cat.id ? "default" : "outline"}
+              className="transition-all duration-300 active:scale-95 touch-manipulation text-xs sm:text-sm md:text-base px-3 sm:px-4 py-2 sm:py-2.5 min-h-[40px] sm:min-h-[44px]"
+              style={{
+                backgroundColor: activeCategory === cat.id 
+                  ? theme.components.button.primary.background 
+                  : theme.colors.background.card,
+                color: activeCategory === cat.id 
+                  ? theme.colors.text.white 
+                  : theme.colors.text.primary,
+                borderColor: activeCategory === cat.id 
+                  ? theme.components.button.primary.background 
+                  : `${theme.colors.palette.burntCoffee}20`,
+                boxShadow: activeCategory === cat.id ? theme.shadows.md : theme.shadows.sm,
+              }}
+              onMouseEnter={(e) => {
+                if (activeCategory !== cat.id) {
+                  e.currentTarget.style.backgroundColor = theme.colors.palette.whiskeySour;
+                  e.currentTarget.style.color = theme.colors.text.white;
+                  e.currentTarget.style.boxShadow = theme.shadows.md;
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeCategory !== cat.id) {
+                  e.currentTarget.style.backgroundColor = theme.colors.background.card;
+                  e.currentTarget.style.color = theme.colors.text.primary;
+                  e.currentTarget.style.boxShadow = theme.shadows.sm;
+                }
+              }}
             >
               {cat.label}
             </Button>
           ))}
         </div>
 
-        {/* Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, i) => (
-            <Card key={i} className="overflow-hidden bg-white rounded-2xl">
-              <div className="h-48 overflow-hidden">
+        {/* Grid - Sequential */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+          {filteredProjects.map((project, i) => {
+            return (
+            <Card 
+              key={i} 
+              className="overflow-hidden rounded-xl sm:rounded-2xl transition-all duration-300 active:scale-[0.98] hover:-translate-y-2 hover:shadow-2xl fade-in-sequential grainy-subtle"
+              style={{
+                backgroundColor: theme.colors.background.card,
+                borderColor: `${theme.colors.palette.burntCoffee}15`,
+                boxShadow: theme.shadows.lg,
+              }}
+            >
+              <div className="h-40 sm:h-48 overflow-hidden relative group">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
 
-              <CardHeader>
-                <CardTitle>{project.title}</CardTitle>
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className="text-lg sm:text-xl md:text-2xl" style={{ color: theme.colors.text.primary }}>
+                  {project.title}
+                </CardTitle>
               </CardHeader>
 
-              <CardContent>
-                <p className="text-[#6B5D52] mb-4">
+              <CardContent className="p-4 sm:p-6 pt-0">
+                <p className="mb-3 sm:mb-4 text-sm sm:text-base leading-relaxed" style={{ color: theme.colors.text.secondary }}>
                   {project.description}
                 </p>
 
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                   {project.tags.map((tag, idx) => (
-                    <Badge key={idx}>{tag}</Badge>
+                    <Badge 
+                      key={idx}
+                      style={{
+                        backgroundColor: `${theme.colors.palette.champagne}40`,
+                        color: theme.colors.text.primary,
+                        border: `1px solid ${theme.colors.palette.burntCoffee}20`,
+                      }}
+                    >
+                      {tag}
+                    </Badge>
                   ))}
                 </div>
 
-                {project.pdfUrl && (
-                  <Button size="sm" asChild>
-                    <a href={project.pdfUrl} target="_blank">
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      View PDF
-                    </a>
-                  </Button>
-                )}
+                <div className="flex flex-col sm:flex-row gap-2">
+                  {project.pdfUrl && (
+                    <Button 
+                      size="sm" 
+                      asChild
+                      className="transition-all duration-300 active:scale-95 touch-manipulation w-full sm:w-auto min-h-[40px] sm:min-h-[36px] text-xs sm:text-sm"
+                      style={{
+                        backgroundColor: theme.components.button.primary.background,
+                        color: theme.colors.text.white,
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = theme.components.button.primary.hoverBackground;
+                        e.currentTarget.style.boxShadow = theme.shadows.lg;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = theme.components.button.primary.background;
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <a href={project.pdfUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
+                        <ExternalLink className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+                        View PDF
+                      </a>
+                    </Button>
+                  )}
 
-                {project.repoUrl && (
-                  <Button size="sm" variant="secondary" asChild>
-                    <a href={project.repoUrl} target="_blank">
-                      <Github className="h-4 w-4 mr-2" />
-                      View Code
-                    </a>
-                  </Button>
-                )}
+                  {project.repoUrl && (
+                    <Button 
+                      size="sm" 
+                      variant="secondary" 
+                      asChild
+                      className="transition-all duration-300 active:scale-95 touch-manipulation w-full sm:w-auto min-h-[40px] sm:min-h-[36px] text-xs sm:text-sm"
+                      style={{
+                        backgroundColor: theme.components.button.secondary.background,
+                        color: theme.components.button.secondary.text,
+                        border: `1px solid ${theme.colors.palette.burntCoffee}20`,
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = theme.components.button.secondary.hoverBackground;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = theme.components.button.secondary.background;
+                      }}
+                    >
+                      <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center">
+                        <Github className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+                        View Code
+                      </a>
+                    </Button>
+                  )}
+                </div>
               </CardContent>
             </Card>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

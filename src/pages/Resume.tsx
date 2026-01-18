@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { theme } from "@/config/theme";
 
 interface TimelineItem {
   icon: React.ElementType;
@@ -32,15 +33,6 @@ const timeline: TimelineItem[] = [
     location: "Los Angeles, CA",
     description:
       "Graduate training in marketing analytics, data-driven decision-making, and applied strategy.",
-  },
-  {
-    icon: GraduationCap,
-    date: "Jun 2020 – May 2024",
-    title: "B.B.A. — GPA 3.7/4.0",
-    organization: "Pandit Deendayal Energy University",
-    location: "Gujarat, India",
-    description:
-      "Undergraduate business foundation with hands-on marketing and growth initiatives.",
   },
   {
     icon: Briefcase,
@@ -81,6 +73,15 @@ const timeline: TimelineItem[] = [
       "Partnered with 10+ cafés for sampling and pop-ups.",
       "Managed 3+ agencies for PR and marketing placements.",
     ],
+  },
+  {
+    icon: GraduationCap,
+    date: "Jun 2020 – May 2024",
+    title: "B.B.A. — GPA 3.7/4.0",
+    organization: "Pandit Deendayal Energy University",
+    location: "Gujarat, India",
+    description:
+      "Undergraduate business foundation with hands-on marketing and growth initiatives.",
   },
   {
     icon: Briefcase,
@@ -124,87 +125,204 @@ export default function Resume() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-20 bg-[#F5F0EB]">
-      <div className="max-w-4xl mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-14">
-          <h1 className="text-5xl font-bold text-[#4A3F37] mb-4">
+    <div className="min-h-screen pt-20 sm:pt-24 pb-12 sm:pb-16 md:pb-20 grainy-subtle texture-fabric" style={{ backgroundColor: theme.colors.background.main }}>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        {/* Header - Sequential */}
+        <div className="text-center mb-10 sm:mb-12 md:mb-16 fade-in-sequential">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4" style={{ color: theme.colors.text.primary }}>
             Resume
           </h1>
-          <p className="text-lg text-[#6B5D52] mb-8">
+          <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-7 md:mb-8 px-2 leading-relaxed" style={{ color: theme.colors.text.secondary }}>
             Experience, education, and leadership — presented clearly.
           </p>
 
-          <Button size="lg" onClick={handleDownload}>
-            <Download className="mr-2 h-5 w-5" />
+          <Button 
+            size="lg" 
+            onClick={handleDownload}
+            className="transition-all duration-300 active:scale-95 touch-manipulation w-full sm:w-auto px-6 sm:px-8 py-5 sm:py-6 text-sm sm:text-base min-h-[48px]"
+            style={{
+              backgroundColor: theme.components.button.primary.background,
+              color: theme.colors.text.white,
+              boxShadow: theme.shadows.xl,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = theme.components.button.primary.hoverBackground;
+              e.currentTarget.style.boxShadow = theme.shadows["2xl"];
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = theme.components.button.primary.background;
+              e.currentTarget.style.boxShadow = theme.shadows.xl;
+            }}
+          >
+            <Download className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
             Download PDF Resume
           </Button>
         </div>
 
-        {/* Ladder Timeline */}
-        <div className="space-y-8">
-          {timeline.map((item, index) => (
-            <Card key={index} className="bg-white rounded-2xl">
-              <CardContent className="p-6">
-                <div className="flex items-start gap-4">
-                  <div className="mt-1">
-                    <item.icon className="h-6 w-6 text-[#8B7566]" />
+        {/* Timeline */}
+        <div className="relative">
+          {/* Vertical Timeline Line */}
+          <div 
+            className="hidden md:block absolute left-1/2 top-0 bottom-0 w-0.5 transform -translate-x-1/2"
+            style={{ backgroundColor: theme.colors.palette.whiskeySour }}
+          />
+          
+          {/* Mobile Timeline Line */}
+          <div 
+            className="md:hidden absolute left-4 sm:left-6 md:left-8 top-0 bottom-0 w-0.5"
+            style={{ backgroundColor: theme.colors.palette.whiskeySour }}
+          />
+
+          {/* Timeline Items - Sequential */}
+          <div className="space-y-8 sm:space-y-10 md:space-y-12">
+            {timeline.map((item, index) => {
+              const isEven = index % 2 === 0;
+              
+              return (
+                <div 
+                  key={index}
+                  className={`relative flex items-start md:items-center fade-in-sequential ${
+                    isEven ? "md:flex-row" : "md:flex-row-reverse"
+                  }`}
+                >
+                  {/* Timeline Node */}
+                  <div className="relative z-10 flex-shrink-0 md:absolute md:left-1/2 md:transform md:-translate-x-1/2">
+                    <div 
+                      className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full flex items-center justify-center transition-all duration-300 active:scale-95 touch-manipulation"
+                      style={{
+                        backgroundColor: theme.colors.background.card,
+                        border: `3px solid ${theme.colors.palette.whiskeySour}`,
+                        boxShadow: theme.shadows.lg,
+                      }}
+                    >
+                      <item.icon 
+                        className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10" 
+                        style={{ color: theme.colors.palette.whiskeySour }}
+                      />
+                    </div>
                   </div>
 
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-3 text-sm text-[#6B5D52] mb-1">
-                      <Calendar className="h-4 w-4" />
-                      <span>{item.date}</span>
-                      {item.location && (
-                        <>
-                          <MapPin className="h-4 w-4 ml-2" />
-                          <span>{item.location}</span>
-                        </>
-                      )}
-                    </div>
+                  {/* Content Card */}
+                  <div 
+                    className={`flex-1 ml-4 sm:ml-5 md:ml-0 transition-all duration-300 active:scale-[0.98] ${
+                      isEven 
+                        ? "md:pr-8 lg:pr-12 md:mr-auto md:max-w-[calc(50%-60px)]" 
+                        : "md:pl-8 lg:pl-12 md:ml-auto md:max-w-[calc(50%-60px)]"
+                    }`}
+                  >
+                    <Card 
+                      className="rounded-xl sm:rounded-2xl border-2 hover:shadow-xl transition-all duration-300 grainy-subtle"
+                      style={{
+                        backgroundColor: theme.colors.background.card,
+                        borderColor: `${theme.colors.palette.burntCoffee}20`,
+                        boxShadow: theme.shadows.lg,
+                      }}
+                    >
+                      <CardContent className="p-4 sm:p-5 md:p-6">
+                        {/* Date Badge */}
+                        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                          <div 
+                            className="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold inline-flex items-center"
+                            style={{
+                              backgroundColor: `${theme.colors.palette.champagne}40`,
+                              color: theme.colors.text.primary,
+                              border: `1px solid ${theme.colors.palette.burntCoffee}20`,
+                            }}
+                          >
+                            <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" />
+                            {item.date}
+                          </div>
+                          {item.location && (
+                            <div 
+                              className="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs inline-flex items-center"
+                              style={{
+                                backgroundColor: `${theme.colors.palette.champagne}30`,
+                                color: theme.colors.text.secondary,
+                                border: `1px solid ${theme.colors.palette.burntCoffee}20`,
+                              }}
+                            >
+                              <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" />
+                              {item.location}
+                            </div>
+                          )}
+                        </div>
 
-                    <h3 className="text-xl font-semibold text-[#4A3F37]">
-                      {item.title}
-                    </h3>
-                    <p className="text-[#6B5D52] font-medium">
-                      {item.organization}
-                    </p>
+                        {/* Title */}
+                        <h3 className="text-lg sm:text-xl font-semibold mb-1.5 sm:mb-2 leading-tight" style={{ color: theme.colors.text.primary }}>
+                          {item.title}
+                        </h3>
 
-                    <p className="text-[#6B5D52] mt-2">
-                      {item.description}
-                    </p>
+                        {/* Organization */}
+                        <p className="font-medium mb-2 sm:mb-3 text-sm sm:text-base" style={{ color: theme.colors.text.secondary }}>
+                          {item.organization}
+                        </p>
 
-                    {item.highlights && (
-                      <>
-                        <Separator className="my-4" />
-                        <ul className="space-y-2 text-sm text-[#4A3F37]">
-                          {item.highlights.map((h, i) => (
-                            <li key={i} className="flex gap-2">
-                              <span className="mt-1 text-[#8B7566]">•</span>
-                              <span>{h}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
+                        {/* Description */}
+                        <p className="mb-3 sm:mb-4 text-sm sm:text-base leading-relaxed" style={{ color: theme.colors.text.secondary }}>
+                          {item.description}
+                        </p>
+
+                        {/* Highlights */}
+                        {item.highlights && (
+                          <>
+                            <Separator className="my-3 sm:my-4" style={{ backgroundColor: `${theme.colors.palette.burntCoffee}15` }} />
+                            <ul className="space-y-1.5 sm:space-y-2">
+                              {item.highlights.map((h, i) => (
+                                <li key={i} className="flex gap-2 sm:gap-3 text-xs sm:text-sm leading-relaxed" style={{ color: theme.colors.text.primary }}>
+                                  <span 
+                                    className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full"
+                                    style={{ backgroundColor: theme.colors.palette.whiskeySour }}
+                                  />
+                                  <span>{h}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        )}
+                      </CardContent>
+                    </Card>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
+              );
+            })}
+          </div>
         </div>
 
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <Card className="bg-white rounded-2xl">
+        {/* Bottom CTA - Sequential */}
+        <div className="text-center mt-20 fade-in-sequential">
+          <Card 
+            className="rounded-2xl grainy-subtle"
+            style={{
+              backgroundColor: theme.colors.background.card,
+              boxShadow: theme.shadows.lg,
+              border: `2px solid ${theme.colors.palette.burntCoffee}20`,
+            }}
+          >
             <CardContent className="p-8">
-              <h2 className="text-2xl text-[#4A3F37] mb-4">
+              <h2 className="text-2xl mb-4" style={{ color: theme.colors.text.primary }}>
                 Prefer a traditional resume?
               </h2>
-              <p className="text-[#6B5D52] mb-6">
+              <p className="mb-6" style={{ color: theme.colors.text.secondary }}>
                 Download the full PDF version for easy sharing.
               </p>
-              <Button size="lg" onClick={handleDownload}>
+              <Button 
+                size="lg" 
+                onClick={handleDownload}
+                className="transition-all duration-300 hover:scale-105"
+                style={{
+                  backgroundColor: theme.components.button.primary.background,
+                  color: theme.colors.text.white,
+                  boxShadow: theme.shadows.xl,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = theme.components.button.primary.hoverBackground;
+                  e.currentTarget.style.boxShadow = theme.shadows["2xl"];
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = theme.components.button.primary.background;
+                  e.currentTarget.style.boxShadow = theme.shadows.xl;
+                }}
+              >
                 <Download className="mr-2 h-5 w-5" />
                 Download PDF Resume
               </Button>
@@ -212,6 +330,7 @@ export default function Resume() {
           </Card>
         </div>
       </div>
+
     </div>
   );
 }
