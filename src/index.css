@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+  /* Pastel / warm neutral theme */
+  --background: 41 29% 89%;          /* cream (#E1D4C2) */
+  --foreground: 20 48% 10%;          /* espresso (#291C0E) */
+
+  --card: 41 29% 89%;
+  --card-foreground: 20 48% 10%;
+
+  --popover: 41 29% 89%;
+  --popover-foreground: 20 48% 10%;
+
+  --primary: 20 48% 10%;             /* espresso */
+  --primary-foreground: 41 29% 89%;  /* cream */
+
+  --secondary: 22 23% 35%;           /* cocoa-ish */
+  --secondary-foreground: 41 29% 89%;
+
+  --muted: 28 17% 70%;               /* stone */
+  --muted-foreground: 22 10% 35%;
+
+  --accent: 28 17% 70%;              /* stone */
+  --accent-foreground: 20 48% 10%;
+
+  --destructive: 0 72% 50%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 28 17% 70%;
+  --input: 28 17% 70%;
+  --ring: 22 23% 35%;
+
+  --radius: 1rem;
+}
+
+
+    /* Custom tokens for portfolio */
+    --hero-gradient-from: 243 75% 59%;
+    --hero-gradient-to: 271 81% 56%;
+    
+    --section-bg: 220 13% 98%;
+    --section-bg-alt: 0 0% 100%;
+    
+    --text-primary: 220 13% 13%;
+    --text-secondary: 220 9% 46%;
+    --text-muted: 220 9% 60%;
+
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+  --background: 20 48% 7%;          /* deep espresso */
+  --foreground: 41 29% 92%;         /* light cream */
+
+  --card: 20 48% 9%;
+  --card-foreground: 41 29% 92%;
+
+  --popover: 20 48% 9%;
+  --popover-foreground: 41 29% 92%;
+
+  --primary: 41 29% 92%;            /* cream */
+  --primary-foreground: 20 48% 10%; /* espresso */
+
+  --secondary: 22 23% 20%;
+  --secondary-foreground: 41 29% 92%;
+
+  --muted: 22 23% 16%;
+  --muted-foreground: 28 17% 70%;
+
+  --accent: 22 23% 16%;
+  --accent-foreground: 41 29% 92%;
+
+  --destructive: 0 62% 35%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border: 22 23% 18%;
+  --input: 22 23% 18%;
+  --ring: 28 17% 70%;
+
+  --radius: 1rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+}
+
+@layer utilities {
+  .section-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-br from-primary to-accent;
+  }
+
+  .glass-effect {
+    @apply bg-background/80 backdrop-blur-md;
+  }
+
+  .smooth-transition {
+    transition: var(--transition-smooth);
+  }
+}
